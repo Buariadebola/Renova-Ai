@@ -32,7 +32,7 @@ function Login(){
         <h1 className="logo">Renova AI</h1>
           <form action="" onSubmit={handleSignin}>
           <h2>Login</h2>
-            <label htmlFor="email">Email:</label>
+            <label htmlFor="email">Username:</label>
               <input type='text' placeholder='John Doe' value={username} onChange={(event) => setUsername(event.target.value)}/>
             <label htmlFor="password">Password:</label>
             <div className='password-box'>
