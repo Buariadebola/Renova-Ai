@@ -10,19 +10,24 @@ const Signup = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
     const navigate = useNavigate()
+    const [loading, setLoading] = useState(false)
 
     const API_URL = import.meta.env.VITE_API_URL;
 
   const handleSignup = async (event) => {
     event.preventDefault();
+    setLoading(true)
+    setError(false)
     try{
       const response = await api.post("/api/signup", { username, email, password });
       console.log(response.data)
-      setError(null);
+      setLoading(true)
       navigate('/login');
     alert("Signup successful! You can now sign in.");
     } catch (error) {
   setError(error.response?.data?.message || 'Error signing up');
+} finally {
+  setLoading(false)
 }
   }
 
@@ -45,7 +50,7 @@ const Signup = () => {
                 </div>
                 {(password.length < 7) ? <p style={{color: 'red'}}>Password must be at least 7 characters</p> : null}
                 {error && <div className='signup-error'><FaExclamationTriangle className='notice-icon' style={{marginRight: '5px'}}/> {error}</div>}
-                <button type='submit' className='submit-button'>sign up</button>
+                <button type='submit' className='submit-button' disabled={loading}>{loading ? <div className="spinner"></div> : "sign up" }</button>
                 <p>Have an account already? <button><Link to="/login">Login</Link></button></p>
           </form>
         </div>

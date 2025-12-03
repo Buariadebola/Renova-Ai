@@ -9,8 +9,10 @@ function Login(){
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false)
 
         const handleSignin = async (event) => {
+        setLoading(true)
         event.preventDefault();
         try{
           const response = await api.post("/api/signin", { username, password });
@@ -20,6 +22,8 @@ function Login(){
           navigate('/chat');
         } catch (error) {
   setError(error.response?.data?.message || 'Error signing in');
+} finally {
+  setLoading(false)
 }
       }
 
@@ -39,7 +43,7 @@ function Login(){
               <input type={showPassword ? "text" : "password"} placeholder='********' minLength={7} value={password} onChange={(event) => setPassword(event.target.value)} /><button type="button" onClick={() => setShowPassword(! showPassword)}>{showPassword ? <FaEyeSlash style={{scale: '1.4'}}/> : <FaEye style={{scale: '1.4'}}/>}</button>
             </div>
               {error && <div className='signup-error'><FaExclamationTriangle className='notice-icon' style={{marginRight: '5px'}}/> {error}</div>}
-            <button type='submit' className='submit-button'>Sign in</button>
+            <button type='submit' className='submit-button'>{loading ? <div className="spinner"></div> : "Sign in" }</button>
           <p>Don't have an account yet? <button className='signUp-button'><Link to="/signup">Create account</Link></button></p>
         </form>
       </div>
